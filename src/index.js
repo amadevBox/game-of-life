@@ -1,8 +1,8 @@
-const fieldSize = 500
-const numberOfCellsInRow = 20
-const framesPerSecond = 5
+const fieldSize = 800
+const numberOfCellsInRow = 50
+const framesPerSecond = 8
 
-const getGrid = () => {
+const getRandomGrid = () => {
   const grid = new Array(numberOfCellsInRow)
   for (let i = 0; i < grid.length; i++) {
     grid[i] = new Array(numberOfCellsInRow)
@@ -37,11 +37,13 @@ const getNextGeneration = (grid) => {
 
 const countNeighbors = (grid, x, y) => {
   let sum = 0
+  const numberOfRows = grid.length
+  const numberOfCols = grid[0].length
   for (let i = -1; i < 2; i++) {
     for (let j = -1; j < 2; j++) {
-      const col = (x + i + grid.length) % grid.length
-      const row = (y + j + grid.length) % grid.length
-      sum += grid[col][row]
+      const row = (x + i + numberOfRows) % numberOfRows
+      const col = (y + j + numberOfCols) % numberOfCols
+      sum += grid[row][col]
     }
   }
   sum -= grid[x][y]
@@ -87,9 +89,6 @@ const generation = (ctx, grid) => {
 window.onload = () => {
   const canvas = document.getElementById('canvas')
   const ctx = canvas.getContext('2d')
-
-  const grid = getGrid()
-  console.log(grid)
-  drawGrid(ctx, grid)
+  const grid = getRandomGrid()
   generation(ctx, grid)
 }
